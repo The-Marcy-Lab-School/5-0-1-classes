@@ -1,16 +1,15 @@
 # Classes - The Basics
 
-**Conceptual**
-* What can `this` point to?
-    * Global object OR the “owner” object
-* Explain how classes enable encapsulation
+- [Intro](#intro)
+- [Inheritance](#inheritance)
+- [Classes](#classes)
+  - [Class Constructor and `new`](#class-constructor-and-new)
+  - [`this` in a Constructor](#this-in-a-constructor)
+  - [Defining Class Methods](#defining-class-methods)
+- [Quiz!](#quiz)
+- [Challenge](#challenge)
+- [Summary](#summary)
 
-**Implementation**
-* Implement a class with a constructor
-* Implement class instance methods
-* Utilize `this` in class methods to access instance values
-* Instantiate instances of a class with `new`
-* Access the `.prototype` 
 
 ## Intro
 
@@ -30,10 +29,6 @@ const makeFriendsManager = (...initialFriends) => {
     }
   }
 }
-const myFriendsManager = makeFriendsManager();
-myFriendsManager.addFriend('ahmad')
-myFriendsManager.addFriend('brandon')
-myFriendsManager.addFriend('carmen')
 ```
 
 While this certainly achieves the main objectives of **encapsulation**, the remaining pillars of Objct-Oriented Programming (OOP) are not satisfied:
@@ -64,15 +59,17 @@ const makeFriendsManager = (...initialFriends) => {
 // instances of the factory function
 const myFM = makeFriendsManager();
 const yourFM = makeFriendsManager();
+```
 
+The objects `myFM` and `yourFM` definitely have the same behavior. But do they _share_ that behavior? That is, **are the methods that they each have referencing the same exact function?**
+
+```js
 // are these the same object?
 console.log(myFM === yourFM)
 
 // are the methods of these objects the same?
 console.log(myFM.addFriend === yourFM.addFriend)
 ```
-
-The objects `myFM` and `yourFM` definitely have the same behavior. But do they _share_ that behavior? That is, **are the methods that they each have referencing the same exact function?**
 
 **<details><summary style="color: purple">Q: Are the methods that they each have referencing the same exact function?</summary>**
 > No! They are not the same. Each time the factory function is invoked, a brand new object is made and the methods are recreated as well. 
@@ -83,7 +80,9 @@ The objects `myFM` and `yourFM` definitely have the same behavior. But do they _
 
 To achieve true **inheritance** where objects can be created that share a set of methods, we define a **class**.
 
-A **class** defines a type of object. It has a **constructor function** for defining the default properties that every **instances** of that class (objects of that type) will have. All instances of that class share the same methods. 
+A **class** defines a type of object. 
+* It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
+* All instances of that class inherit the class' methods. 
 
 **<details><summary style="color: purple">Q: Suppose we wanted to create a class to represent users. What would the default properties be? What methods would be shared by each instance? </summary>**
 
@@ -94,9 +93,9 @@ A **class** defines a type of object. It has a **constructor function** for defi
 
 
 
-## Class Constructor and `new`
+### Class Constructor and `new`
 
-Many languages implement classes in some manner. In JavaScript it starts with this:
+Many languages implement classes in some manner. In JavaScript it starts with the `class` keyword and then an uppercase name, like this:
 
 ```js
 class User {
@@ -133,7 +132,7 @@ User('ben', 'ben@mail.com'); // error: you must use the new keyword to invoke a 
 ```
 
 
-## What is `this`?
+### `this` in a Constructor
 
 `this` is one of the most complicated topics in JavaScript. It is very quirky. But to keep things simple, let's start here:
 
@@ -159,7 +158,7 @@ const zo = new User('zo', 'zo@mail.com');
 // User { name: 'zo', email: 'zo@mail.com, password: null}
 ```
 
-## Class Methods
+### Defining Class Methods
 
 Remember, **encapsulation** wants us to bundle data with methods that operate on that data.
 
@@ -172,6 +171,8 @@ class User {
     this.email = email;
     this.password = null;
   }
+  
+  // notice that we don't have commas between methods
 
   setPassword(newPassword) {
     this.password = newPassword;
@@ -204,14 +205,160 @@ const ben = new User('ben', 'ben@mail.com');
 const zo = new User('zo', 'zo@mail.com');
 
 // they are the same method
-console.log(ben.setPassword === zo.setPassword);
+console.log(ben.setPassword === zo.setPassword); // true
 
-// but when we invoke the method, the value of `this` changes
+// when we invoke the method, the value of `this` changes
 ben.setPassword('1234');
 zo.validatePassword('1234'); // No password set.
 ```
 
+Next time, we'll look at making the password private.
+
 ## Quiz!
+
+Can you spot the mistake(s) with the code below?
+
+```js
+const Animal = {
+  constructor: (species, sound) => {
+    this.owners = [];
+    this.species = species;
+    this.sound = sound;
+  },
+  makeSound() {
+    console.log(sound)
+  }
+}
+
+const dog = Animal('canine', 'woof');
+```
+
+**<details><summary style="color: purple">Q: Answer</summary>**
+> The following mistakes are made:
+> * `const` is used instead of `class` to define the `Animal` class
+> * We don't need the `=` to create the class
+> * The `constructor` function should be written like this: `constructor () {}` without the `:` and `=>`
+> * We don't need a comma to separate the methods
+> * `makeSound` should use `this.sound`
+> * When creating an instance of `Animal`, the `new` keyword should be used.
+>
+> ```js
+> class Animal {
+>   constructor (species, sound) {
+>     this.owners = [];
+>     this.species = species;
+>     this.sound = sound;
+>   }
+>   makeSound() {
+>     console.log(this.sound)
+>   }
+> }
+> 
+> const dog = new Animal('canine', 'woof');
+> ```
+
+</details><br>
+
+## Challenge
+
+Create a class called `FoodItem`. Every instance of `FoodItem` should have the following properties and methods
+* `name` — the name of the item
+* `price` - the price of the item in US dollars
+* `weight` - the weight of the item
+* `getPricePerPound()` - returns the price / pound of the item
+
+For example, I should be able to use this `FoodItem` class like so
+
+```js
+const apple = new FoodItem('apple', 1, 0.5);
+console.log(apple); 
+// FoodItem { name: 'apple', price: 1, weight: 0.5 }
+
+console.log(apple.getPricePerPound());
+// 2
+```
+
+**<details><summary style="color: purple">Q: Solution</summary>**
+
+```js
+class FoodItem {
+  constructor(name, price, weight) {
+    this.name = name;
+    this.price = price;
+    this.weight = weight;
+  }
+  getPricePerPound() {
+    return this.price/this.weight;
+  }
+}
+```
+</details><br>
+
+Now, create a second class called `ShoppingCart`. Every instance of `ShoppingCart` should have the following properties and methods:
+* `items` — an array that starts empty. It should hold `FoodItem` instances.
+* `addItem(FoodItem)` — takes in a `FoodItem` instance and adds it to the `items` array.
+* `getTotalPrice()` - calculates the total price of all `FoodItems` in the `items` array
+
+For example, I should be able to use this `ShoppingCart` class like so
+
+```js
+const myCart = new ShoppingCart();
+console.log(myCart); // ShoppingCart { items: [] }
+
+myCart.addItem(new FoodItem('apple', 1, 0.5)) // name, price, weight
+myCart.addItem(new FoodItem('bread', 5, 1))
+myCart.addItem(new FoodItem('cheese', 7, 2))
+console.log(myCart); // ShoppingCart { items: Array(3) }
+
+console.log(myCart.getTotalPrice()); // 13
+```
+
+**<details><summary style="color: purple">Q: Solution</summary>**
+
+```js
+class ShoppingCart {
+  constructor() {
+    this.items = [];
+  }
+  addItem(item) {
+    // we can get fancy and ensure that the incoming item is a FoodItem with instanceof
+    if (!(item instanceof FoodItem)) return;
+
+    this.items.push(item);
+  }
+  getTotalPrice() {
+    return this.items.reduce((total, item) => total + item.price, 0)
+  }
+}
+```
+</details><br>
 
 ## Summary
 
+* **Inheritance** is a pillar of Object-Oriented Programming that focuses on objects sharing and inheriting methods from a class.
+* A **class** defines a type of object. 
+  * It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
+  * All instances of that class inherit the class' methods. 
+* Classes are defined using the `class` keyword
+* Instances of a class are created using the `new` keyword and the class constructor.
+* When used in a constructor function, `this` points to the newly created object
+  * When used in a method, `this` points to the object invoking the method
+
+```js
+class Animal {
+  constructor (species, sound) {
+    this.owners = [];
+    this.species = species;
+    this.sound = sound;
+  }
+  makeSound() {
+    console.log(this.sound)
+  }
+}
+
+const dog = new Animal('canine', 'woof');
+dog.makeSound(); // 'woof'
+
+const cat = new Animal('feline', 'meow');
+cat.makeSound(); // 'meow'
+```
