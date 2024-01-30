@@ -1,7 +1,7 @@
 # Classes - The Basics
 
 - [Intro](#intro)
-- [Inheritance](#inheritance)
+- [Factory Functions Do Not Demonstrate Inheritance](#factory-functions-do-not-demonstrate-inheritance)
 - [Classes](#classes)
   - [Class Constructor and `new`](#class-constructor-and-new)
   - [`this` in a Constructor](#this-in-a-constructor)
@@ -37,7 +37,7 @@ While this certainly achieves the main objectives of **encapsulation**, the rema
 * **Abstraction** - hiding complexity through functions and prototypes
 * **Polymorphism** - similar objects can be used interchangeably
 
-## Inheritance
+## Factory Functions Do Not Demonstrate Inheritance
 
 The pillar of **inheritance** is all about sharing behavior between objects.
 
@@ -71,12 +71,14 @@ console.log(myFM === yourFM)
 console.log(myFM.addFriend === yourFM.addFriend)
 ```
 
-**<details><summary style="color: purple">Q: Are the methods that they each have referencing the same exact function?</summary>**
+**<details><summary style="color: purple">Q: Are the methods `myFM.addFriend()` and `yourFM.addFriend()` referencing the same exact function?</summary>**
 > No! They are not the same. Each time the factory function is invoked, a brand new object is made and the methods are recreated as well. 
 > This is a waste of memory.
 </details><br>
 
-## Classes
+## Inheritance and Classes
+
+The pillar of **inheritance** is all about sharing behavior between objects.
 
 To achieve true **inheritance** where objects can be created that share a set of methods, we define a **class**.
 
