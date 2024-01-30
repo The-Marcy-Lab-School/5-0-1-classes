@@ -82,9 +82,13 @@ The pillar of **inheritance** is all about sharing behavior between objects.
 
 To achieve true **inheritance** where objects can be created that share a set of methods, we define a **class**.
 
+![classes define properties and methods that instances inherit](./images/classes.png)
+
 A **class** defines a type of object. 
 * It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
 * All instances of that class inherit the class' methods. 
+
+
 
 **<details><summary style="color: purple">Q: Suppose we wanted to create a class to represent users. What would the default properties be? What methods would be shared by each instance? </summary>**
 
