@@ -88,8 +88,6 @@ A **class** defines a type of object.
 * It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
 * All instances of that class inherit the class' methods. 
 
-
-
 **<details><summary style="color: purple">Q: Suppose we wanted to create a class to represent users. What would the default properties be? What methods would be shared by each instance? </summary>**
 
 > * The `User` class would have a **constructor function** for making a `User` isntance with properties like `username`, `email`, and `password`
