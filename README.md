@@ -2,7 +2,7 @@
 
 - [Intro](#intro)
 - [Factory Functions Do Not Demonstrate Inheritance](#factory-functions-do-not-demonstrate-inheritance)
-- [Classes](#classes)
+- [Inheritance and Classes](#inheritance-and-classes)
   - [Class Constructor and `new`](#class-constructor-and-new)
   - [`this` in a Constructor](#this-in-a-constructor)
   - [Defining Class Methods](#defining-class-methods)
@@ -86,7 +86,7 @@ To achieve true **inheritance** where objects can be created that share a set of
 
 A **class** defines a type of object. 
 * It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
-* All instances of that class inherit the class' methods. 
+* All instances will have access to the class' methods. 
 
 **<details><summary style="color: purple">Q: Suppose we wanted to create a class to represent users. What would the default properties be? What methods would be shared by each instance? </summary>**
 
