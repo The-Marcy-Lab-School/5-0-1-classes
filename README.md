@@ -6,7 +6,6 @@
   - [Class Definition and `new`](#class-definition-and-new)
   - [Instanceof](#instanceof)
   - [Setting Properties With A Constructor](#setting-properties-with-a-constructor)
-  - [`this` in a Constructor](#this-in-a-constructor)
   - [Defining Instance Methods](#defining-instance-methods)
 - [Quiz!](#quiz)
 - [Challenge](#challenge)
