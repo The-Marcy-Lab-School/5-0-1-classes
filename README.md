@@ -3,9 +3,11 @@
 - [Intro](#intro)
 - [Factory Functions Waste Memory](#factory-functions-waste-memory)
 - [Classes](#classes)
-  - [Class Constructor and `new`](#class-constructor-and-new)
+  - [Class Definition and `new`](#class-definition-and-new)
+  - [Instanceof](#instanceof)
+  - [Setting Properties With A Constructor](#setting-properties-with-a-constructor)
   - [`this` in a Constructor](#this-in-a-constructor)
-  - [Defining Class Methods](#defining-class-methods)
+  - [Defining Instance Methods](#defining-instance-methods)
 - [Quiz!](#quiz)
 - [Challenge](#challenge)
 - [Summary](#summary)
@@ -81,44 +83,87 @@ A **class** defines a type of object and the properties/methods that those objec
 
 </details><br>
 
-### Class Constructor and `new`
+### Class Definition and `new`
 
-Many languages implement classes in some manner. In JavaScript it starts with the `class` keyword and then an uppercase name, like this:
+Many programming languages implement classes in some manner. 
+
+In JavaScript, it starts with the `class` keyword, an uppercase name, and curly braces. Like this:
 
 ```js
+// class definitions
 class User {
 
 }
-```
 
-Inside the curly braces we define a **constructor function** which allows us to create **instances** by invoking the name of the class with the `new` keyword.
+class Pet {
 
-```js
-class User {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
-    this.password = null; // to be set later
-  }
 }
-const ben = new User('ben', 'ben@mail.com');
-const zo = new User('zo', 'zo@mail.com');
-console.log(ben, zo);
-// User { name: 'ben', email: 'ben@mail.com, password: null }
-// User { name: 'zo', email: 'zo@mail.com, password: null }
+
+// creating class instances
+const ben = new User();
+const clifford = new Pet();
+
+// Instances are objects derived from a particular class
+console.log(ben); // User {}
+console.log(clifford); // Pet {}
 ```
 
-Classes have some quirks to get used to:
-* Invoking `new User` will invoke the `constructor` function inside of the `class`.
-* You have to invoke that function with the `new` keyword (you'll get an error if you don't)
+With a `class` definition, we can create new **instances** of that class using the `new` keyword. An **instance** is an object that is derived from a class.
+
+**Note:** Even though `User` is treated like a function (we invoke it), you must use the `new` keyword when making an instance (you'll get an error if you don't)
 
 ```js
 // User is a function, but you can't just call it
 console.log(typeof User); // function
 
-User('ben', 'ben@mail.com'); // error: you must use the new keyword to invoke a constructor function
+const ben = User(); // error: you must use the new keyword to invoke a constructor function
 ```
 
+### Instanceof
+
+We can use the `instanceof` operator (kind of like the `typeof` operator) to see if an object is derived from the given class.
+
+```js
+console.log(ben instanceof User); // true
+console.log(ben instanceof Pet); // false
+
+console.log(clifford instanceof User); // false
+console.log(clifford instanceof Pet); // true
+```
+
+### Setting Properties With A Constructor
+
+Right now, the class definitions only allow us to create blank objects. But objects are only useful if they have properties. 
+
+There are two kinds of properties that instances of a class can have:
+1. Properties with default values that all instances start with
+2. Properties whose values are provided when the instance is made
+
+```js
+class User {
+  // Default instance properties are defined here. We can change these later
+  isAdmin = false;
+  password = null; 
+
+  // Instance properties that require inputs go in the constructor
+  constructor(name, email) {
+    this.name = name;  // <-- The `this` keyword references the new instance object being created
+    this.email = email;
+  }
+}
+
+const ben = new User('ben', 'ben@mail.com');
+const zo = new User('zo', 'zo@mail.com');
+
+console.log(ben, zo);
+// User { name: 'ben', email: 'ben@mail.com, isAdmin: false, password: null }
+// User { name: 'zo', email: 'zo@mail.com, isAdmin: false, password: null }
+```
+
+Class `constructor` functions have some quirks to get used to:
+* `constructor` is a special method name. You must use this name. When you create a new instance of a class using `new`, JavaScript will look to see if the class has a `constructor` method and it will execute that method.
+* The `constructor` function can accept parameters whose values are provided when the instance is made
+* The `this` keyword, when used in a `constructor`, references the new instance object being created.
 
 ### `this` in a Constructor
 
@@ -146,7 +191,7 @@ const zo = new User('zo', 'zo@mail.com');
 // User { name: 'zo', email: 'zo@mail.com, password: null}
 ```
 
-### Defining Class Methods
+### Defining Instance Methods
 
 Remember, **encapsulation** wants us to bundle data with methods that operate on that data.
 
