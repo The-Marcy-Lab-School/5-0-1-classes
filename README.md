@@ -141,7 +141,8 @@ There are two kinds of properties that instances of a class can have:
 
 ```js
 class User {
-  // Default instance properties are defined here. We can change these later
+  // Default instance properties are defined here. We can change these later.
+  // Notice that the `this` keyword isn't used
   isAdmin = false;
   password = null; 
 
@@ -156,40 +157,14 @@ const ben = new User('ben', 'ben@mail.com');
 const zo = new User('zo', 'zo@mail.com');
 
 console.log(ben, zo);
-// User { name: 'ben', email: 'ben@mail.com, isAdmin: false, password: null }
-// User { name: 'zo', email: 'zo@mail.com, isAdmin: false, password: null }
+// User {isAdmin: false, password: null, name: 'ben', email: 'ben@mail.com'}
+// User {isAdmin: false, password: null, name: 'zo', email: 'zo@mail.com'}
 ```
 
 Class `constructor` functions have some quirks to get used to:
 * `constructor` is a special method name. You must use this name. When you create a new instance of a class using `new`, JavaScript will look to see if the class has a `constructor` method and it will execute that method.
 * The `constructor` function can accept parameters whose values are provided when the instance is made
-* The `this` keyword, when used in a `constructor`, references the new instance object being created.
-
-### `this` in a Constructor
-
-`this` is one of the most complicated topics in JavaScript. It is very quirky. But to keep things simple, let's start here:
-
-* `this` ALWAYS points to an object.
-* When used as method of an object, **`this` refers to the object that invokes the method.**
-* When a `constructor` function is invoked with the `new` keyword, a new object will be created and `this` will point to the newly created object.
-
-```js
-class User {
-  constructor(name, email) {
-    // this = {};
-    this.name = name;
-    this.email = email;
-    this.password = null;
-    console.log(this);
-    // return this;
-  }
-}
-const ben = new User('ben', 'ben@mail.com');
-// User { name: 'ben', email: 'ben@mail.com, password: null }
-
-const zo = new User('zo', 'zo@mail.com');
-// User { name: 'zo', email: 'zo@mail.com, password: null}
-```
+* The `this` keyword, when used in a `constructor,` references the new instance object being created.
 
 ### Defining Instance Methods
 
@@ -199,15 +174,19 @@ Adding methods to a `class` definition looks like this:
 
 ```js
 class User {
+  isAdmin = false;
+  password = null;
+
   constructor(name, email) {
     this.name = name;
     this.email = email;
-    this.password = null;
   }
   
   // notice that we don't have commas between methods
+  // These methods are shared by ALL instances of the class
 
   setPassword(newPassword) {
+    // When used in a method, this references the object invoking the method
     this.password = newPassword;
   }
 
@@ -231,7 +210,7 @@ ben.setPassword('1234');
 ben.validatePassword('1234'); // It Matches!
 ```
 
-When used in a method, the `this` keyword refers to the object that is invoking the method.
+When used in a method, the `this` keyword refers to the object invoking the method.
 
 ```js
 const ben = new User('ben', 'ben@mail.com');
@@ -253,8 +232,9 @@ Can you spot the mistake(s) with the code below?
 
 ```js
 const Animal = {
+  this.owners = [];
+
   constructor: (species, sound) => {
-    this.owners = [];
     this.species = species;
     this.sound = sound;
   },
@@ -270,6 +250,7 @@ const dog = Animal('canine', 'woof');
 > The following mistakes are made:
 > * `const` is used instead of `class` to define the `Animal` class
 > * We don't need the `=` to create the class
+> * The `owners` property with the default value doesn't need `this`
 > * The `constructor` function should be written like this: `constructor () {}` without the `:` and `=>`
 > * We don't need a comma to separate the methods
 > * `makeSound` should use `this.sound`
@@ -277,8 +258,9 @@ const dog = Animal('canine', 'woof');
 >
 > ```js
 > class Animal {
+>   owners = [];
+> 
 >   constructor (species, sound) {
->     this.owners = [];
 >     this.species = species;
 >     this.sound = sound;
 >   }
@@ -368,8 +350,7 @@ class ShoppingCart {
 
 ## Summary
 
-* **Inheritance** is a pillar of Object-Oriented Programming that focuses on objects sharing and inheriting methods from a class.
-* A **class** defines a type of object. 
+* A **class** defines a type of object with shared methods and properties
   * It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
   * All instances of that class inherit the class' methods. 
 * Classes are defined using the `class` keyword
@@ -379,8 +360,8 @@ class ShoppingCart {
 
 ```js
 class Animal {
+  owners = [];
   constructor (species, sound) {
-    this.owners = [];
     this.species = species;
     this.sound = sound;
   }
