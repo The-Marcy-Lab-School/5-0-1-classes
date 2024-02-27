@@ -1,8 +1,8 @@
 # Classes - The Basics
 
 - [Intro](#intro)
-- [Factory Functions Do Not Demonstrate Inheritance](#factory-functions-do-not-demonstrate-inheritance)
-- [Inheritance and Classes](#inheritance-and-classes)
+- [Factory Functions Waste Memory](#factory-functions-waste-memory)
+- [Classes](#classes)
   - [Class Constructor and `new`](#class-constructor-and-new)
   - [`this` in a Constructor](#this-in-a-constructor)
   - [Defining Class Methods](#defining-class-methods)
@@ -31,15 +31,7 @@ const makeFriendsManager = (...initialFriends) => {
 }
 ```
 
-While this certainly achieves the main objectives of **encapsulation**, the remaining pillars of Objct-Oriented Programming (OOP) are not satisfied:
-
-* **Inheritance** - sharing behavior between objects
-* **Abstraction** - hiding complexity through functions and prototypes
-* **Polymorphism** - similar objects can be used interchangeably
-
-## Factory Functions Do Not Demonstrate Inheritance
-
-The pillar of **inheritance** is all about sharing behavior between objects.
+## Factory Functions Waste Memory
 
 The nice thing about encapsulation is that we can re-use `makeFriendsManager` to create multiple objects that look alike: each friends manager has `getFriends` and `addFriends` methods. 
 
@@ -61,7 +53,7 @@ const myFM = makeFriendsManager();
 const yourFM = makeFriendsManager();
 ```
 
-The objects `myFM` and `yourFM` definitely have the same behavior. But do they _share_ that behavior? That is, **are the methods that they each have referencing the same exact function?**
+The objects `myFM` and `yourFM` definitely have the same behavior. But do they _share_ that behavior? That is, **are the methods they each have referencing the same exact function?**
 
 ```js
 // are these the same object?
@@ -76,17 +68,11 @@ console.log(myFM.addFriend === yourFM.addFriend)
 > This is a waste of memory.
 </details><br>
 
-## Inheritance and Classes
-
-The pillar of **inheritance** is all about sharing behavior between objects.
-
-To achieve true **inheritance** where objects can be created that share a set of methods, we define a **class**.
+## Classes
 
 ![classes define properties and methods that instances inherit](./images/classes.png)
 
-A **class** defines a type of object. 
-* It has a **constructor function** for defining the default properties that every **instance** of that class (objects of that type) will have. 
-* All instances will have access to the class' methods. 
+A **class** defines a type of object and the properties/methods that those objects will share. 
 
 **<details><summary style="color: purple">Q: Suppose we wanted to create a class to represent users. What would the default properties be? What methods would be shared by each instance? </summary>**
 
@@ -94,8 +80,6 @@ A **class** defines a type of object.
 > * The `User` class might have methods like `changeUsername` or `setPassword`
 
 </details><br>
-
-
 
 ### Class Constructor and `new`
 
